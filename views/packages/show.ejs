@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Package Detail | FitLife</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge"></div>
+        <div>
+          <div>FitLife — Package Detail</div>
+          <div class="sub">รายละเอียดแพ็กเกจ</div>
+        </div>
+      </div>
+      <div class="row">
+        <a class="btn" href="/packages">← Back</a>
+        <a class="btn" href="/packages/<%= pkg.id %>/edit">Edit</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row spread">
+        <div>
+          <div style="font-weight:900; font-size:22px;"><%= pkg.package_name %></div>
+          <div class="small"><span class="badge"><%= pkg.is_active ? 'Active' : 'Inactive' %></span></div>
+        </div>
+        <div class="row">
+          <span class="badge">฿ <%= pkg.price %></span>
+          <span class="badge"><%= pkg.session_count %> sessions</span>
+          <% if (pkg.duration_days) { %>
+            <span class="badge"><%= pkg.duration_days %> days</span>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="small" style="line-height:1.7;">
+        <%= pkg.description || '— ไม่มีรายละเอียด —' %>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="form-actions">
+        <!-- ตอนต่อ backend: action="/packages/<%= pkg.id %>/delete" method="POST" -->
+        <a class="btn btn-danger"
+           href="/packages/<%= pkg.id %>/delete"
+           data-confirm-delete
+           data-name="<%= pkg.package_name %>">Delete</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/packages.js"></script>
+</body>
+</html>

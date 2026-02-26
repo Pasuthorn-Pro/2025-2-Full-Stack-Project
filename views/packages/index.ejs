@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Packages | FitLife</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge"></div>
+        <div>
+          <div>FitLife — Packages</div>
+          <div class="sub">จัดการแพ็กเกจออกกำลังกาย</div>
+        </div>
+      </div>
+      <div class="row">
+        <a class="btn btn-primary" href="/packages/new">+ Add Package</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row spread">
+        <div>
+          <div style="font-weight:800; font-size:18px;">รายการแพ็กเกจ</div>
+          <div class="small">แสดงทั้งหมด <span class="badge"><%= (packages?.length ?? 0) %> รายการ</span></div>
+        </div>
+
+        <form class="row" method="GET" action="/packages">
+          <input class="input" style="min-width:240px" name="q" placeholder="ค้นหาแพ็กเกจ..." value="<%= q ?? '' %>"/>
+          <button class="btn" type="submit">Search</button>
+        </form>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width:28%;">Package</th>
+            <th>Detail</th>
+            <th style="width:14%;">Price</th>
+            <th style="width:14%;">Sessions</th>
+            <th style="width:18%;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!packages || packages.length === 0) { %>
+            <tr>
+              <td colspan="5" class="small">ยังไม่มีข้อมูลแพ็กเกจ</td>
+            </tr>
+          <% } %>
+
+          <% packages?.forEach(p => { %>
+            <tr>
+              <td>
+                <div style="font-weight:800;"><%= p.package_name %></div>
+                <div class="small"><%= p.is_active ? 'Active' : 'Inactive' %></div>
+              </td>
+              <td class="small">
+                <%= p.description || '-' %>
+              </td>
+              <td>
+                <span class="badge">฿ <%= p.price %></span>
+              </td>
+              <td>
+                <span class="badge"><%= p.session_count %> sessions</span>
+              </td>
+              <td>
+                <div class="row">
+                  <a class="btn btn-ghost" href="/packages/<%= p.id %>">View</a>
+                  <a class="btn" href="/packages/<%= p.id %>/edit">Edit</a>
+
+                  <!-- ตอนต่อ backend: action="/packages/<%= p.id %>/delete" method="POST" -->
+                  <a class="btn btn-danger"
+                     href="/packages/<%= p.id %>/delete"
+                     data-confirm-delete
+                     data-name="<%= p.package_name %>">Delete</a>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="/js/packages.js"></script>
+</body>
+</html>

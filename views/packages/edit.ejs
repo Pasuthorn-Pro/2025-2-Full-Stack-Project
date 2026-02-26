@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edit Package | FitLife</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge"></div>
+        <div>
+          <div>FitLife — Edit Package</div>
+          <div class="sub">แก้ไขข้อมูลแพ็กเกจ</div>
+        </div>
+      </div>
+      <a class="btn" href="/packages/<%= pkg.id %>">← Back</a>
+    </div>
+
+    <div class="card">
+      <!-- ตอนต่อ backend: action="/packages/<%= pkg.id %>/update" method="POST" -->
+      <form method="POST" action="/packages/<%= pkg.id %>/update">
+        <div class="grid">
+          <div>
+            <label class="small">Package Name *</label>
+            <input class="input" name="package_name" required value="<%= pkg.package_name %>" />
+          </div>
+          <div>
+            <label class="small">Price (฿) *</label>
+            <input class="input" type="number" name="price" min="0" required value="<%= pkg.price %>" />
+          </div>
+          <div>
+            <label class="small">Sessions *</label>
+            <input class="input" type="number" name="session_count" min="1" required value="<%= pkg.session_count %>" />
+          </div>
+          <div>
+            <label class="small">Duration (Days)</label>
+            <input class="input" type="number" name="duration_days" min="1" value="<%= pkg.duration_days ?? '' %>" />
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label class="small">Description</label>
+          <textarea class="textarea" name="description"><%= pkg.description ?? '' %></textarea>
+        </div>
+
+        <div class="row" style="margin-top:12px;">
+          <input id="active" type="checkbox" name="is_active" <%= pkg.is_active ? 'checked' : '' %> />
+          <label for="active" class="small">Active</label>
+        </div>
+
+        <div class="form-actions">
+          <a class="btn btn-ghost" href="/packages/<%= pkg.id %>">Cancel</a>
+          <button class="btn btn-primary" type="submit">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
