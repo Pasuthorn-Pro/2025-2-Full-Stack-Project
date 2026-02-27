@@ -6,3 +6,10 @@ document.addEventListener("click", (e) => {
   const ok = confirm(`ยืนยันลบ ${name} ?`);
   if (!ok) e.preventDefault();
 });
+
+// Mobile nav toggle
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-nav-toggle]");
+  if (!btn) return;
+  document.querySelector(".site-header")?.classList.toggle("is-open");
+});

@@ -1,0 +1,42 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">F</span>
+      <div class="brand-text">
+        <div class="brand-title">FitLife</div>
+        <div class="brand-sub">Gym Management System</div>
+      </div>
+    </a>
+
+    <nav class="nav">
+      <a class="nav-link <%= (activePage==='dashboard'?'is-active':'') %>" href="/">Dashboard</a>
+      <a class="nav-link <%= (activePage==='members'?'is-active':'') %>" href="/members">Members</a>
+      <a class="nav-link <%= (activePage==='packages'?'is-active':'') %>" href="/packages">Packages</a>
+      <a class="nav-link <%= (activePage==='classes'?'is-active':'') %>" href="/classes">Classes</a>
+      <a class="nav-link <%= (activePage==='enrollments'?'is-active':'') %>" href="/enrollments">Enrollments</a>
+
+      <div class="nav-dropdown">
+        <button class="nav-link nav-btn <%= (activePage==='reports'?'is-active':'') %>" type="button">
+          Reports <span class="caret">▾</span>
+        </button>
+        <div class="dropdown-menu">
+          <a href="/reports/members-in-class">Report 1: Class Enrollments</a>
+          <a href="/reports/member-payments">Report 2: Member Payments</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="header-actions">
+        <% if (typeof ctaText !== 'undefined' && ctaText) { %>
+            <a class="btn btn-cta" href="<%= (typeof ctaHref !== 'undefined' ? ctaHref : '#') %>">
+                <span class="btn-plus">+</span>
+                <span><%= ctaText %></span>
+            </a>
+        <% } %>
+
+      <button class="nav-toggle" type="button" aria-label="Toggle menu" data-nav-toggle>
+        ☰
+      </button>
+    </div>
+  </div>
+</header>

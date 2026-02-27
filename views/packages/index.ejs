@@ -7,12 +7,13 @@
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+  <%- include('../partials/header', { activePage: 'packages' }) %>
   <div class="container">
     <div class="topbar">
       <div class="brand">
         <div class="brand-badge"></div>
         <div>
-          <div>FitLife — Packages</div>
+          <div class="page-title">FitLife — Packages</div>
           <div class="sub">จัดการแพ็กเกจออกกำลังกาย</div>
           <span class="badge-active">Active</span>
         </div>
@@ -85,7 +86,7 @@
       </table>
     </div>
   </div>
-
+  <%- include('../partials/footer') %>
   <script src="/js/packages.js"></script>
 </body>
 </html>
