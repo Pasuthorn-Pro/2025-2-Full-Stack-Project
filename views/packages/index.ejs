@@ -9,16 +9,17 @@
 <body>
   <%- include('../partials/header', { activePage: 'packages' }) %>
   <div class="container">
-    <div class="topbar">
-      <div class="brand">
+    <div class="page-head">
+      <div class="page-head-left">
         <div class="brand-badge"></div>
-        <div>
+
+        <div class="page-head-text">
           <div class="page-title">FitLife — Packages</div>
           <div class="sub">จัดการแพ็กเกจออกกำลังกาย</div>
           <span class="badge-active">Active</span>
         </div>
       </div>
-      <div class="row">
+      <div class="page-actions">
         <a class="btn btn-primary" href="/packages/new">+ Add Package</a>
       </div>
     </div>
@@ -73,11 +74,12 @@
                   <a class="btn btn-ghost" href="/packages/<%= p.id %>">View</a>
                   <a class="btn" href="/packages/<%= p.id %>/edit">Edit</a>
 
-                  <!-- ตอนต่อ backend: action="/packages/<%= p.id %>/delete" method="POST" -->
-                  <a class="btn btn-danger"
-                     href="/packages/<%= p.id %>/delete"
-                     data-confirm-delete
-                     data-name="<%= p.package_name %>">Delete</a>
+                  <form method="POST" action="/packages/<%= p.id %>/delete" style="display:inline;">
+                    <button class="btn btn-danger" type="submit"
+                      data-confirm-delete data-name="<%= p.package_name %>">
+                      Delete
+                    </button>
+                  </form>
                 </div>
               </td>
             </tr>

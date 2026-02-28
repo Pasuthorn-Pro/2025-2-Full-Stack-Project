@@ -1,120 +1,147 @@
+/* =========================================================
+   0) THEME / TOKENS (ตัวแปรสีและค่าหลักของทั้งเว็บ)
+   ========================================================= */
 :root{
   --bg:#ffffff;            /* พื้นหลังหลัก = ขาว */
-  --card:#ffffff;          /* การ์ดขาว */
-  --text:#111111;          /* ตัวอักษรเข้ม */
-  --muted:#666666;
-  --line:#e5e5e5;
+  --card:#ffffff;          /* การ์ด */
+  --text:#111111;          /* ตัวอักษรหลัก */
+  --muted:#666666;         /* ตัวอักษรจาง */
+  --line:#e5e5e5;          /* เส้นขอบ */
 
-  --primary:#e60023;       /* 🔴 แดงหลัก */
-  --primary2:#b0001a;      /* แดงเข้ม */
-  --danger:#ff2b2b;
-  --ok:#22c55e;
+  --primary:#e60023;       /* 🔴 สีหลัก (แดง) */
+  --primary2:#b0001a;      /* แดงเข้มสำหรับ hover */
+  --danger:#ff2b2b;        /* แดงอันตราย */
+  --ok:#22c55e;            /* เขียวสถานะ */
 }
 
-*{ box-sizing:border-box; }
+/* =========================================================
+   1) GLOBAL RESET / BASE (ล้างค่าเริ่มต้น + โครงพื้นฐาน)
+   ========================================================= */
+*,
+*::before,
+*::after{ box-sizing:border-box; }
+
+html, body{
+  margin:0;               /* ✅ แก้ช่องว่างบน/ล่างที่ browser ใส่มาให้ */
+  padding:0;
+}
+
 body{
-  margin:0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background:#f7f7f7;      /* เทาอ่อนแบบยิม */
   color:var(--text);
 }
 
+/* =========================================================
+   2) LAYOUT UTILITIES (กรอบ/ระยะ/ยูทิลิตี้ที่ใช้ซ้ำ)
+   ========================================================= */
 .container{
-  max-width: 1050px;
-  margin: 28px auto;
-  padding: 0 16px;
+  max-width: 1050px;       /* กำหนดความกว้างเนื้อหากลางหน้า */
+  margin: 0 auto;          /* ✅ จากเดิม auto auto -> ใช้รูปแบบมาตรฐาน */
+  padding: 0 16px;         /* กันชิดขอบจอ */
 }
 
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom: 14px;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:700;
-  letter-spacing:.2px;
-}
-.brand-badge{
-  width:36px;
-  height:36px;
-  border-radius:10px;
-  background: linear-gradient(135deg, #ff1f3d, #b0001a);
+.hr{
+  height:1px;
+  background: var(--line);
+  margin: 14px 0;
 }
 
+.small{
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* =========================================================
+   3) TYPOGRAPHY / PAGE HEAD (หัวข้อในหน้า content)
+   ========================================================= */
 .page-title{
-  color: var(--primary);  /* 🔴 แดง */
+  color: var(--primary);   /* หัวข้อหลักเป็นแดง */
   font-weight: 900;
   font-size: 20px;
 }
 
 .sub{
-  color:var(--muted);
-  color: #666;
+  color: var(--muted);     /* ✅ ลบสีซ้ำ/ชน: เดิมมี 2 บรรทัด */
   font-size: 13px;
   margin-top: 2px;
 }
 
+/* =========================================================
+   4) COMPONENTS: CARD / GRID / ROW
+   ========================================================= */
 .card{
   background: var(--card);
   border:1px solid var(--line);
   border-radius: 16px;
   padding: 16px;
   box-shadow: 0 8px 24px rgba(0,0,0,.08);
-  border-top:4px solid var(--primary);
+  border-top:4px solid var(--primary); /* สไตล์ Jetts */
 }
 
+.grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* row ใช้จัด element ให้อยู่บรรทัดเดียว */
 .row{
   display:flex;
-  gap:10px;
+  gap:8px;
   align-items:center;
-  flex-wrap:nowrap;   /* ไม่ให้ขึ้นบรรทัดใหม่ */
 }
 
+/* spread ใช้กับ row เพื่อแยกซ้าย/ขวา */
 .spread{ justify-content:space-between; }
 
+/* action buttons ในตาราง: ไม่ให้ตกบรรทัด */
+.actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  white-space:nowrap;
+}
+
+/* =========================================================
+   5) COMPONENTS: BUTTONS
+   ========================================================= */
 .btn{
   appearance:none;
-  border:0;
+  border:1px solid var(--line);
   padding: 10px 12px;
   border-radius: 12px;
   font-weight: 650;
   cursor:pointer;
+
   color: var(--text);
-  background: rgba(255,255,255,.08);
-  border:1px solid var(--line);
+  background: #fff;        /* ✅ เดิมใช้ rgba(255...) บางทีดูเทา/จาง */
   transition: transform .06s ease, background .15s ease;
   text-decoration:none;
   display:inline-flex;
   align-items:center;
   gap:8px;
 }
-.btn:hover{ background: rgba(255,255,255,.12); }
+.btn:hover{ background:#f5f5f5; }
+
 .btn:active{ transform: translateY(1px); }
 
 .btn-primary{
   background: var(--primary);
   border: none;
-  color: white;
+  color: #fff;
 }
-
-.btn-primary:hover{
-  background: var(--primary2);
-}
+.btn-primary:hover{ background: var(--primary2); }
 
 .btn-danger{
-  background:#e60023;   /* 🔴 แดงหลัก */
-  color:#ffffff;
+  background: var(--primary);
+  color:#fff;
   border:none;
-  font-weight:600;
+  font-weight:700;
 }
 
 .btn-danger:hover{
-  background:#b0001a;   /* แดงเข้ม */
+  background: var(--primary2);
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(230,0,35,.35);
 }
@@ -124,32 +151,75 @@ body{
   border:1px solid var(--line);
 }
 
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap: 16px;
+  margin-top: 18px;       /* ✅ ดันทั้งหัวลงจาก header */
+  margin-bottom: 10px;    /* ✅ เว้นจากการ์ดตาราง */
+}
+
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap: 16px;
+  margin-top: 18px;       /* ✅ ดันทั้งหัวลงจาก header */
+  margin-bottom: 10px;    /* ✅ เว้นจากการ์ดตาราง */
+}
+
+.page-head-left{
+  display:flex;
+  align-items:flex-start;
+  gap: 12px;
+}
+
+/* กันปุ่มยุบ/ตกบรรทัดแบบแปลก ๆ */
+.page-head .btn{
+  flex: 0 0 auto;
+}
+
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -6px;
+}
+
+
+/* =========================================================
+   6) COMPONENTS: FORMS (input/select/textarea)
+   ========================================================= */
 .input, .select, .textarea{
   width: 100%;
   padding: 10px 12px;
   border-radius: 12px;
   border:1px solid var(--line);
-  background: rgba(0,0,0,.18);
+  background: #fff;        /* ✅ เดิม rgba(0,0,0,.18) ทำให้ดำเกินบน theme ขาว */
   color: var(--text);
   outline:none;
 }
 
-.input:focus{
-  border:2px solid #e60023;
-  outline:none;
+.input:focus, .select:focus, .textarea:focus{
+  border:2px solid var(--primary);
 }
 
-.textarea{ min-height: 110px; resize: vertical; }
-
-.grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-@media (max-width: 720px){
-  .grid{ grid-template-columns: 1fr; }
+.textarea{
+  min-height: 110px;
+  resize: vertical;
 }
 
+.form-actions{
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   7) COMPONENTS: TABLE / KPI / BADGES
+   ========================================================= */
 .table{
   width:100%;
   border-collapse: collapse;
@@ -165,14 +235,11 @@ body{
 }
 .table th{
   text-align:left;
-  color: var(--muted);
   font-weight: 650;
   background:#fafafa;
   color:#444;
 }
-.table tr:hover{
-  background:#fafafa;
-}
+.table tr:hover{ background:#fafafa; }
 
 .kpi{
   display:grid;
@@ -180,13 +247,10 @@ body{
   gap: 12px;
   margin-top: 12px;
 }
-@media (max-width: 900px){
-  .kpi{ grid-template-columns: 1fr; }
-}
-.kpi .card{
-  padding: 14px;
-}
+.kpi .card{ padding: 14px; }
+
 .kpi-title{ color: var(--muted); font-size: 13px; }
+
 .kpi-value{ font-size: 22px; font-weight: 800; margin-top:6px; }
 
 .badge{
@@ -197,33 +261,22 @@ body{
   border:1px solid var(--line);
   font-size: 12px;
   color: var(--muted);
-  background: rgba(255,255,255,.06);
+  background: #fff;
 }
 
 .badge-active{
   background:#e8f7ee;
   color:#1f8f4e;
+  border:1px solid #cdebd8;
   border-radius:999px;
   padding:2px 10px;
   font-size:12px;
   font-weight:600;
 }
 
-.form-actions{
-  display:flex;
-  gap:10px;
-  justify-content:flex-end;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-
-.hr{
-  height:1px;
-  background: var(--line);
-  margin: 14px 0;
-}
-.small{ font-size: 13px; color: var(--muted); }
-
+/* =========================================================
+   8) HEADER (ใช้ร่วมทุกหน้า)  [แก้ class ชน: brand -> nav-brand]
+   ========================================================= */
 .site-header{
   background: var(--primary);
   color: #fff;
@@ -240,13 +293,17 @@ body{
   padding: 14px 16px;
 }
 
-.brand{
+/* ✅ เดิมไฟล์มี .brand ซ้ำ 2 ครั้ง ทำให้ชนกับ brand ใน content
+   แนะนำเปลี่ยนใน header.ejs: class="brand" -> class="nav-brand"
+*/
+.nav-brand{
   display:flex;
   align-items:center;
   gap: 12px;
   text-decoration:none;
   color:#fff;
 }
+
 .brand-mark{
   width:44px;height:44px;
   border-radius: 12px;
@@ -257,7 +314,16 @@ body{
   place-items:center;
 }
 .brand-title{ font-size:18px; font-weight:900; line-height:1; }
+
 .brand-sub{ font-size:12px; opacity:.9; margin-top:4px; }
+
+.brand,
+.brand:visited,
+.brand:active{
+  color: white !important;
+  text-decoration: none !important;
+}
+
 
 .nav{
   display:flex;
@@ -279,6 +345,7 @@ body{
   opacity: 1;
 }
 
+/* dropdown reports */
 .nav-dropdown{ position: relative; }
 .nav-btn{
   background: transparent;
@@ -307,6 +374,7 @@ body{
   font-weight:600;
 }
 .dropdown-menu a:hover{ background:#f5f5f5; }
+
 .nav-dropdown:hover .dropdown-menu{ display:block; }
 
 .header-actions{
@@ -328,6 +396,7 @@ body{
   gap: 10px;
 }
 .btn-cta:hover{ filter: brightness(.95); }
+
 .btn-plus{
   width:34px;height:34px;
   border-radius: 10px;
@@ -338,37 +407,9 @@ body{
   font-weight:900;
 }
 
-/* Mobile nav */
-.nav-toggle{
-  display:none;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.35);
-  color:#fff;
-  border-radius: 12px;
-  padding: 10px 12px;
-  cursor:pointer;
-}
-
-@media (max-width: 900px){
-  .nav{ display:none; }
-  .nav-toggle{ display:inline-flex; }
-  .site-header.is-open .nav{
-    display:flex;
-    flex-direction:column;
-    gap: 8px;
-    position:absolute;
-    left: 0;
-    right: 0;
-    top: 72px;
-    background: var(--primary);
-    padding: 12px 16px 16px;
-    border-top: 1px solid rgba(255,255,255,.25);
-  }
-  .nav-link{ padding: 10px 6px; }
-  .dropdown-menu{ position: static; display:block; margin-top:6px; }
-}
-
-/* ===== Jetts-style Footer ===== */
+/* =========================================================
+   9) FOOTER (ใช้ร่วมทุกหน้า)
+   ========================================================= */
 .site-footer{
   margin-top: 40px;
   background: var(--primary);
@@ -380,9 +421,6 @@ body{
   grid-template-columns: 1.2fr 1fr 1fr 1fr;
   gap: 18px;
   padding: 24px 16px;
-}
-@media (max-width: 900px){
-  .footer-grid{ grid-template-columns: 1fr; }
 }
 
 .footer-title{
@@ -413,4 +451,40 @@ body{
   align-items:center;
   justify-content:space-between;
   padding: 12px 16px;
+}
+
+/* =========================================================
+   10) RESPONSIVE 
+   ========================================================= */
+@media (max-width: 900px){
+  /* KPI 3 ช่อง -> 1 ช่อง */
+  .kpi{ grid-template-columns: 1fr; }
+
+  /* Footer 4 คอลัมน์ -> 1 คอลัมน์ */
+  .footer-grid{ grid-template-columns: 1fr; }
+
+  /* Mobile nav: ซ่อนเมนูหลัก, เปิดด้วยปุ่ม */
+  .nav{ display:none; }
+  .nav-toggle{ display:inline-flex; }
+
+  .site-header.is-open .nav{
+    display:flex;
+    flex-direction:column;
+    gap: 8px;
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 72px;
+    background: var(--primary);
+    padding: 12px 16px 16px;
+    border-top: 1px solid rgba(255,255,255,.25);
+  }
+
+  .nav-link{ padding: 10px 6px; }
+  .dropdown-menu{ position: static; display:block; margin-top:6px; }
+}
+
+@media (max-width: 720px){
+  /* grid 2 คอลัมน์ -> 1 คอลัมน์ */
+  .grid{ grid-template-columns: 1fr; }
 }
