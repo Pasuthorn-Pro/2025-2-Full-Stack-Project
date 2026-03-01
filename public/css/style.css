@@ -160,15 +160,6 @@ body{
   margin-bottom: 10px;    /* ✅ เว้นจากการ์ดตาราง */
 }
 
-.page-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap: 16px;
-  margin-top: 18px;       /* ✅ ดันทั้งหัวลงจาก header */
-  margin-bottom: 10px;    /* ✅ เว้นจากการ์ดตาราง */
-}
-
 .page-head-left{
   display:flex;
   align-items:flex-start;
