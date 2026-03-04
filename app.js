@@ -2,106 +2,126 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+const db = require("./models");
 
-// ===== config =====
+// ===== Middleware =====
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true })); // ✅ รับค่าจาก <form>
+app.use(express.urlencoded({ extended: true }));
 
-// ===== mock data (in-memory) =====
-let packages = [
-  { id: 1, package_name: "Student", description: "นักเรียน/นักศึกษา", price: 899, session_count: 20, duration_days: 30, is_active: true },
-  { id: 2, package_name: "Monthly", description: "รายเดือน", price: 1299, session_count: 30, duration_days: 30, is_active: true },
-  { id: 3, package_name: "VIP", description: "พรีเมียม", price: 2999, session_count: 60, duration_days: 90, is_active: true },
-];
+const port = process.env.PORT || 3000;
 
-const nextId = () => (packages.length ? Math.max(...packages.map(p => p.id)) + 1 : 1);
-const toBool = (v) => v === "on" || v === "true" || v === true;
+const toBool = (v) => v === "true" || v === "on" || v === true;
+const toInt = (v, fallback = 0) => {
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.trunc(n) : fallback;
+};
 
-// ===== routes =====
+// ===== Routes =====
 app.get("/", (req, res) => res.redirect("/packages"));
 
-// List + Search
-app.get("/packages", (req, res) => {
-  const q = (req.query.q || "").trim().toLowerCase();
-  const filtered = q
-    ? packages.filter(p =>
-        (p.package_name || "").toLowerCase().includes(q) ||
-        (p.description || "").toLowerCase().includes(q)
-      )
-    : packages;
+// LIST + SEARCH
+app.get("/packages", async (req, res) => {
+  const q = (req.query.q || "").trim();
+  const { Op } = db.Sequelize;
 
-  res.render("packages/index", { packages: filtered, q });
+  const where = q
+    ? {
+        [Op.or]: [
+          { package_name: { [Op.like]: `%${q}%` } },
+          { description: { [Op.like]: `%${q}%` } },
+        ],
+      }
+    : {};
+
+  const packages = await db.Package.findAll({
+    where,
+    order: [["id", "DESC"]],
+  });
+
+  res.render("packages/index", { packages, q });
 });
 
-// New form
+// NEW
 app.get("/packages/new", (req, res) => {
   res.render("packages/new");
 });
 
-// Create
-app.post("/packages", (req, res) => {
-  const pkg = {
-    id: nextId(),
+// CREATE
+app.post("/packages", async (req, res) => {
+  const payload = {
     package_name: (req.body.package_name || "").trim(),
-    description: (req.body.description || "").trim(),
-    price: Number(req.body.price || 0),
-    session_count: Number(req.body.session_count || 0),
-    duration_days: req.body.duration_days ? Number(req.body.duration_days) : null,
+    description: (req.body.description || "").trim() || null,
+    price: toInt(req.body.price, 0),
+    session_count: toInt(req.body.session_count, 1),
+    duration_days: req.body.duration_days ? toInt(req.body.duration_days, null) : null,
     is_active: toBool(req.body.is_active),
   };
 
-  // validation แบบง่าย
-  if (!pkg.package_name || pkg.price < 0 || pkg.session_count < 1) {
-    return res.status(400).send("Invalid package data");
-  }
+  if (!payload.package_name) return res.status(400).send("package_name is required");
+  if (payload.price < 0) return res.status(400).send("price must be >= 0");
+  if (payload.session_count < 1) return res.status(400).send("session_count must be >= 1");
 
-  packages.push(pkg);
-  res.redirect("/packages");
+  try {
+    await db.Package.create(payload);
+    return res.redirect("/packages");
+  } catch (err) {
+    // ชน unique ชื่อซ้ำ
+    return res.status(400).send(err.message);
+  }
 });
 
-// Show
-app.get("/packages/:id", (req, res) => {
-  const pkg = packages.find(p => p.id == req.params.id);
+// SHOW
+app.get("/packages/:id", async (req, res) => {
+  const pkg = await db.Package.findByPk(req.params.id);
   if (!pkg) return res.status(404).send("Package not found");
   res.render("packages/show", { pkg });
 });
 
-// Edit form
-app.get("/packages/:id/edit", (req, res) => {
-  const pkg = packages.find(p => p.id == req.params.id);
+// EDIT
+app.get("/packages/:id/edit", async (req, res) => {
+  const pkg = await db.Package.findByPk(req.params.id);
   if (!pkg) return res.status(404).send("Package not found");
   res.render("packages/edit", { pkg });
 });
 
-// Update
-app.post("/packages/:id/update", (req, res) => {
-  const idx = packages.findIndex(p => p.id == req.params.id);
-  if (idx === -1) return res.status(404).send("Package not found");
+// UPDATE
+app.post("/packages/:id/update", async (req, res) => {
+  const pkg = await db.Package.findByPk(req.params.id);
+  if (!pkg) return res.status(404).send("Package not found");
 
-  const updated = {
-    ...packages[idx],
+  const payload = {
     package_name: (req.body.package_name || "").trim(),
-    description: (req.body.description || "").trim(),
-    price: Number(req.body.price || 0),
-    session_count: Number(req.body.session_count || 0),
-    duration_days: req.body.duration_days ? Number(req.body.duration_days) : null,
+    description: (req.body.description || "").trim() || null,
+    price: toInt(req.body.price, 0),
+    session_count: toInt(req.body.session_count, 1),
+    duration_days: req.body.duration_days ? toInt(req.body.duration_days, null) : null,
     is_active: toBool(req.body.is_active),
   };
 
-  if (!updated.package_name || updated.price < 0 || updated.session_count < 1) {
-    return res.status(400).send("Invalid package data");
+  if (!payload.package_name) return res.status(400).send("package_name is required");
+  if (payload.price < 0) return res.status(400).send("price must be >= 0");
+  if (payload.session_count < 1) return res.status(400).send("session_count must be >= 1");
+
+  try {
+    await pkg.update(payload);
+    return res.redirect("/packages");
+  } catch (err) {
+    return res.status(400).send(err.message);
   }
+});
 
-  packages[idx] = updated;
+// DELETE
+app.post("/packages/:id/delete", async (req, res) => {
+  const pkg = await db.Package.findByPk(req.params.id);
+  if (!pkg) return res.status(404).send("Package not found");
+
+  await pkg.destroy();
   res.redirect("/packages");
 });
 
-// Delete
-app.post("/packages/:id/delete", (req, res) => {
-  packages = packages.filter(p => p.id != req.params.id);
-  res.redirect("/packages");
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`http://localhost:${port}`));
+// ===== Start =====
+(async () => {
+  await db.sequelize.authenticate();
+  app.listen(port, () => console.log(`http://localhost:${port}`));
+})();

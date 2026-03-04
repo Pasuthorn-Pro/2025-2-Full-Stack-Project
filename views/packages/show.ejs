@@ -1,60 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Package Detail | FitLife</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Package Detail</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="topbar">
-      <div class="brand">
+
+  <%- include('../partials/header', { activePage: 'packages', ctaText: null, ctaHref: null }) %>
+
+  <main class="container">
+    <div class="page-head">
+      <div class="page-head-left">
         <div class="brand-badge"></div>
-        <div>
-          <div>FitLife — Package Detail</div>
-          <div class="sub">รายละเอียดแพ็กเกจ</div>
+
+        <div class="page-head-text">
+          <div class="page-title">Package Detail</div>
+          <div class="sub">รายละเอียดแพ็กเกจ: <strong><%= pkg.package_name %></strong></div>
+          <span class="badge">ID: <%= pkg.id %></span>
         </div>
       </div>
-      <div class="row">
-        <a class="btn" href="/packages">← Back</a>
-        <a class="btn" href="/packages/<%= pkg.id %>/edit">Edit</a>
+
+      <div class="page-actions" style="display:flex; gap:10px;">
+        <a class="btn btn-ghost" href="/packages">← Back</a>
+        <a class="btn btn-primary" href="/packages/<%= pkg.id %>/edit">Edit</a>
       </div>
     </div>
 
     <div class="card">
-      <div class="row spread">
+
+      <div class="grid">
         <div>
-          <div style="font-weight:900; font-size:22px;"><%= pkg.package_name %></div>
-          <div class="small"><span class="badge"><%= pkg.is_active ? 'Active' : 'Inactive' %></span></div>
+          <div class="small">Package Name</div>
+          <div style="font-size:18px; font-weight:900;"><%= pkg.package_name %></div>
         </div>
-        <div class="row">
-          <span class="badge">฿ <%= pkg.price %></span>
-          <span class="badge"><%= pkg.session_count %> sessions</span>
-          <% if (pkg.duration_days) { %>
-            <span class="badge"><%= pkg.duration_days %> days</span>
+
+        <div>
+          <div class="small">Status</div>
+          <% if (pkg.is_active) { %>
+            <span class="badge-active">Active</span>
+          <% } else { %>
+            <span class="badge">Inactive</span>
           <% } %>
         </div>
+
+        <div>
+          <div class="small">Price</div>
+          <div style="font-size:18px; font-weight:900;">฿ <%= pkg.price %></div>
+        </div>
+
+        <div>
+          <div class="small">Sessions</div>
+          <span class="badge"><%= pkg.session_count %> sessions</span>
+        </div>
+
+        <div>
+          <div class="small">Duration</div>
+          <span class="badge">
+            <%= (pkg.duration_days ? (pkg.duration_days + " days") : "-") %>
+          </span>
+        </div>
+
+        <div style="grid-column: 1 / -1;">
+          <div class="small">Detail</div>
+          <div style="margin-top:6px; line-height:1.7;">
+            <%= pkg.description && pkg.description.trim() ? pkg.description : "-" %>
+          </div>
+        </div>
       </div>
 
       <div class="hr"></div>
 
-      <div class="small" style="line-height:1.7;">
-        <%= pkg.description || '— ไม่มีรายละเอียด —' %>
+      <div class="form-actions" style="justify-content:flex-start;">
+        <form method="POST" action="/packages/<%= pkg.id %>/delete">
+          <button class="btn btn-danger" type="submit"
+            onclick="return confirm('ลบแพ็กเกจ <%= pkg.package_name %> ใช่ไหม?');">
+            Delete
+          </button>
+        </form>
       </div>
 
-      <div class="hr"></div>
-
-      <div class="form-actions">
-        <!-- ตอนต่อ backend: action="/packages/<%= pkg.id %>/delete" method="POST" -->
-        <a class="btn btn-danger"
-           href="/packages/<%= pkg.id %>/delete"
-           data-confirm-delete
-           data-name="<%= pkg.package_name %>">Delete</a>
-      </div>
     </div>
-  </div>
+  </main>
 
-  <script src="/js/packages.js"></script>
+  <%- include('../partials/footer') %>
+
 </body>
 </html>
