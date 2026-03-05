@@ -7,6 +7,6 @@ const db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Package = require("./package")(sequelize);
+db.Package = require("./Package")(sequelize);
 
 module.exports = db;

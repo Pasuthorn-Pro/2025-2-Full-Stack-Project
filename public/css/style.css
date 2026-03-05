@@ -22,13 +22,13 @@
 *::after{ box-sizing:border-box; }
 
 html, body{
-  margin:0;               /* ✅ แก้ช่องว่างบน/ล่างที่ browser ใส่มาให้ */
+  margin:0;              
   padding:0;
 }
 
 body{
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background:#f7f7f7;      /* เทาอ่อนแบบยิม */
+  background:#f7f7f7;      
   color:var(--text);
 }
 
@@ -36,9 +36,9 @@ body{
    2) LAYOUT UTILITIES (กรอบ/ระยะ/ยูทิลิตี้ที่ใช้ซ้ำ)
    ========================================================= */
 .container{
-  max-width: 1050px;       /* กำหนดความกว้างเนื้อหากลางหน้า */
-  margin: 0 auto;          /* ✅ จากเดิม auto auto -> ใช้รูปแบบมาตรฐาน */
-  padding: 0 16px;         /* กันชิดขอบจอ */
+  max-width: 1050px;       
+  margin: 0 auto;          
+  padding: 0 16px;         
 }
 
 .hr{
@@ -56,13 +56,13 @@ body{
    3) TYPOGRAPHY / PAGE HEAD (หัวข้อในหน้า content)
    ========================================================= */
 .page-title{
-  color: var(--primary);   /* หัวข้อหลักเป็นแดง */
+  color: var(--primary);   
   font-weight: 900;
   font-size: 20px;
 }
 
 .sub{
-  color: var(--muted);     /* ✅ ลบสีซ้ำ/ชน: เดิมมี 2 บรรทัด */
+  color: var(--muted);     
   font-size: 13px;
   margin-top: 2px;
 }
@@ -76,7 +76,7 @@ body{
   border-radius: 16px;
   padding: 16px;
   box-shadow: 0 8px 24px rgba(0,0,0,.08);
-  border-top:4px solid var(--primary); /* สไตล์ Jetts */
+  border-top:4px solid var(--primary); 
 }
 
 .grid{
@@ -85,14 +85,14 @@ body{
   gap: 12px;
 }
 
-/* row ใช้จัด element ให้อยู่บรรทัดเดียว */
+/* row จัด element ให้อยู่บรรทัดเดียว */
 .row{
   display:flex;
   gap:8px;
   align-items:center;
 }
 
-/* spread ใช้กับ row เพื่อแยกซ้าย/ขวา */
+/* spread เพื่อแยกซ้าย/ขวา */
 .spread{ justify-content:space-between; }
 
 /* action buttons ในตาราง: ไม่ให้ตกบรรทัด */
@@ -115,7 +115,7 @@ body{
   cursor:pointer;
 
   color: var(--text);
-  background: #fff;        /* ✅ เดิมใช้ rgba(255...) บางทีดูเทา/จาง */
+  background: #fff;        
   transition: transform .06s ease, background .15s ease;
   text-decoration:none;
   display:inline-flex;
@@ -156,8 +156,8 @@ body{
   justify-content:space-between;
   align-items:flex-start;
   gap: 16px;
-  margin-top: 18px;       /* ✅ ดันทั้งหัวลงจาก header */
-  margin-bottom: 10px;    /* ✅ เว้นจากการ์ดตาราง */
+  margin-top: 18px;       
+  margin-bottom: 10px;    
 }
 
 .page-head-left{
@@ -166,7 +166,6 @@ body{
   gap: 12px;
 }
 
-/* กันปุ่มยุบ/ตกบรรทัดแบบแปลก ๆ */
 .page-head .btn{
   flex: 0 0 auto;
 }
@@ -186,7 +185,7 @@ body{
   padding: 10px 12px;
   border-radius: 12px;
   border:1px solid var(--line);
-  background: #fff;        /* ✅ เดิม rgba(0,0,0,.18) ทำให้ดำเกินบน theme ขาว */
+  background: #fff;       
   color: var(--text);
   outline:none;
 }
@@ -284,9 +283,6 @@ body{
   padding: 14px 16px;
 }
 
-/* ✅ เดิมไฟล์มี .brand ซ้ำ 2 ครั้ง ทำให้ชนกับ brand ใน content
-   แนะนำเปลี่ยนใน header.ejs: class="brand" -> class="nav-brand"
-*/
 .nav-brand{
   display:flex;
   align-items:center;
@@ -470,8 +466,8 @@ body{
   .nav{
     display: none;
     width: 100%;
-    order: 3;                 /* ลงไปอยู่บรรทัดถัดไป */
-    margin-top: 12px;         /* เว้นจาก brand-sub */
+    order: 3;                 
+    margin-top: 12px;        
     padding: 12px 0 14px;
     background: var(--primary);
     border-top: 1px solid rgba(255,255,255,.25);
@@ -479,7 +475,7 @@ body{
     gap: 8px;
   }
 
-  /* ✅ open state: toggle by .site-header.is-open */
+  
   .site-header.is-open .nav{
     display: flex !important;
   }
@@ -498,9 +494,9 @@ body{
 
   .dropdown-menu{
     position: static;
-    display: block;           /* ให้เห็นรายการรายงาน */
+    display: block;           
     margin-top: 8px;
-    box-shadow: none;         /* กันเด้งแปลก ๆ ในมือถือ */
+    box-shadow: none;         
     border-radius: 12px;
   }
 
