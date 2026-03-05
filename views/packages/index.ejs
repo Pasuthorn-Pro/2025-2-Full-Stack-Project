@@ -36,56 +36,57 @@
           <button class="btn" type="submit">Search</button>
         </form>
       </div>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="width:28%;">Package</th>
-            <th>Detail</th>
-            <th style="width:14%;">Price</th>
-            <th style="width:14%;">Sessions</th>
-            <th style="width:18%;">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if (!packages || packages.length === 0) { %>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
             <tr>
-              <td colspan="5" class="small">ยังไม่มีข้อมูลแพ็กเกจ</td>
+              <th style="width:28%;">Package</th>
+              <th>Detail</th>
+              <th style="width:14%;">Price</th>
+              <th style="width:14%;">Sessions</th>
+              <th style="width:18%;">Actions</th>
             </tr>
-          <% } %>
+          </thead>
+          <tbody>
+            <% if (!packages || packages.length === 0) { %>
+              <tr>
+                <td colspan="5" class="small">ยังไม่มีข้อมูลแพ็กเกจ</td>
+              </tr>
+            <% } %>
 
-          <% packages?.forEach(p => { %>
-            <tr>
-              <td>
-                <div style="font-weight:800;"><%= p.package_name %></div>
-                <div class="small"><%= p.is_active ? 'Active' : 'Inactive' %></div>
-              </td>
-              <td class="small">
-                <%= p.description || '-' %>
-              </td>
-              <td>
-                <span class="badge">฿ <%= p.price %></span>
-              </td>
-              <td>
-                <span class="badge"><%= p.session_count %> sessions</span>
-              </td>
-              <td>
-                <div class="row">
-                  <a class="btn btn-ghost" href="/packages/<%= p.id %>">View</a>
-                  <a class="btn" href="/packages/<%= p.id %>/edit">Edit</a>
+            <% packages?.forEach(p => { %>
+              <tr>
+                <td>
+                  <div style="font-weight:800;"><%= p.package_name %></div>
+                  <div class="small"><%= p.is_active ? 'Active' : 'Inactive' %></div>
+                </td>
+                <td class="small">
+                  <%= p.description || '-' %>
+                </td>
+                <td>
+                  <span class="badge">฿ <%= p.price %></span>
+                </td>
+                <td>
+                  <span class="badge"><%= p.session_count %> sessions</span>
+                </td>
+                <td>
+                  <div class="row">
+                    <a class="btn btn-ghost" href="/packages/<%= p.id %>">View</a>
+                    <a class="btn" href="/packages/<%= p.id %>/edit">Edit</a>
 
-                  <form method="POST" action="/packages/<%= p.id %>/delete" style="display:inline;">
-                    <button class="btn btn-danger" type="submit"
-                      data-confirm-delete data-name="<%= p.package_name %>">
-                      Delete
-                    </button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
+                    <form method="POST" action="/packages/<%= p.id %>/delete" style="display:inline;">
+                      <button class="btn btn-danger" type="submit"
+                        data-confirm-delete data-name="<%= p.package_name %>">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <%- include('../partials/footer') %>

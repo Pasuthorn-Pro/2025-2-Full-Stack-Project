@@ -8,8 +8,13 @@ document.addEventListener("click", (e) => {
 });
 
 // Mobile nav toggle
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest("[data-nav-toggle]");
-  if (!btn) return;
-  document.querySelector(".site-header")?.classList.toggle("is-open");
+document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector(".site-header");
+  const btn = document.querySelector(".nav-toggle");
+
+  if (!header || !btn) return;
+
+  btn.addEventListener("click", () => {
+    header.classList.toggle("is-open");
+  });
 });
