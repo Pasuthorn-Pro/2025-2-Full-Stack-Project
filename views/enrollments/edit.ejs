@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Package</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <%- include('../partials/header', { activePage: 'packages', ctaText: null, ctaHref: null }) %>
+
+  <main class="container">
+    <div class="page-head">
+      <div class="page-head-left">
+        <div class="brand-badge"></div>
+
+        <div class="page-head-text">
+          <div class="page-title">Edit Package</div>
+          <div class="sub">แก้ไขข้อมูลแพ็กเกจ: <strong><%= pkg.package_name %></strong></div>
+          <span class="badge">ID: <%= pkg.id %></span>
+        </div>
+      </div>
+
+      <div class="page-actions">
+        <a class="btn btn-ghost" href="/packages">← Back</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <form method="POST" action="/packages/<%= pkg.id %>/update">
+
+        <div class="grid">
+          <div>
+            <label class="small">Package Name *</label>
+            <input class="input" name="package_name" value="<%= pkg.package_name %>"
+              placeholder="เช่น Student / Monthly / VIP" required />
+          </div>
+
+          <div>
+            <label class="small">Status</label>
+            <select class="select" name="is_active">
+              <option value="true" <%= pkg.is_active ? "selected" : "" %>>Active</option>
+              <option value="false" <%= !pkg.is_active ? "selected" : "" %>>Inactive</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="small">Price (THB) *</label>
+            <input class="input" type="number" name="price" min="0" step="1"
+              value="<%= pkg.price %>" required />
+          </div>
+
+          <div>
+            <label class="small">Sessions *</label>
+            <input class="input" type="number" name="session_count" min="1" step="1"
+              value="<%= pkg.session_count %>" required />
+          </div>
+
+          <div>
+            <label class="small">Duration (days)</label>
+            <input class="input" type="number" name="duration_days" min="1" step="1"
+              value="<%= pkg.duration_days ?? '' %>" placeholder="เช่น 30 (เว้นว่างได้)" />
+          </div>
+
+          <div style="grid-column: 1 / -1;">
+            <label class="small">Detail</label>
+            <textarea class="textarea" name="description"
+              placeholder="คำอธิบายแพ็กเกจ..."><%= pkg.description || "" %></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a class="btn btn-ghost" href="/packages">Cancel</a>
+
+          <button class="btn btn-primary" type="submit">Update</button>
+
+          <form method="POST" action="/packages/<%= pkg.id %>/delete" style="display:inline;">
+            <button class="btn btn-danger" type="submit"
+              onclick="return confirm('ลบแพ็กเกจ <%= pkg.package_name %> ใช่ไหม?');">
+              Delete
+            </button>
+          </form>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+</body>
+</html>

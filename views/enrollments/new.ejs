@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Package | FitLife</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <%- include('../partials/header', { activePage: 'packages', ctaText: null, ctaHref: null }) %>
+
+  <main class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge"></div>
+        <div>
+          <div>FitLife — New Package</div>
+          <div class="sub">เพิ่มแพ็กเกจใหม่</div>
+        </div>
+      </div>
+      <a class="btn" href="/packages">← Back</a>
+    </div>
+
+    <div class="card">
+      <form method="POST" action="/packages">
+        <div class="grid">
+          <div>
+            <label class="small">Package Name *</label>
+            <input class="input" name="package_name" required placeholder="เช่น Monthly Unlimited" />
+          </div>
+          <div>
+            <label class="small">Price (฿) *</label>
+            <input class="input" type="number" name="price" min="0" required placeholder="เช่น 1299" />
+          </div>
+          <div>
+            <label class="small">Sessions *</label>
+            <input class="input" type="number" name="session_count" min="1" required placeholder="เช่น 10" />
+          </div>
+          <div>
+            <label class="small">Duration (Days)</label>
+            <input class="input" type="number" name="duration_days" min="1" placeholder="เช่น 30" />
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label class="small">Description</label>
+          <textarea class="textarea" name="description" placeholder="รายละเอียดแพ็กเกจ..."></textarea>
+        </div>
+
+        <div class="row" style="margin-top:12px;">
+          <input id="active" type="checkbox" name="is_active" checked />
+          <label for="active" class="small">Active</label>
+        </div>
+
+        <div class="form-actions">
+          <a class="btn btn-ghost" href="/packages">Cancel</a>
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+</body>
+</html>

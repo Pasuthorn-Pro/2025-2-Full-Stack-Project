@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+
+<h1>Enrollments</h1>
+
+<a href="/enrollments/new" class="btn btn-primary">+ Add Enrollment</a>
+
+<table>
+  <thead>
+    <tr>
+      <th>Member</th>
+      <th>Class</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% enrollments.forEach(e => { %>
+    <tr>
+      <td><%= e.User.firstName %></td>
+      <td><%= e.Class.className %></td>
+      <td><%= e.enrollDate %></td>
+      <td><%= e.status %></td>
+      <td>
+        <a href="/enrollments/<%= e.id %>" class="btn-small">View</a>
+        <a href="/enrollments/<%= e.id %>/edit" class="btn-small">Edit</a>
+        <form action="/enrollments/<%= e.id %>?_method=DELETE" method="POST" style="display:inline;">
+          <button onclick="return confirm('Are you sure?')" class="btn-danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+
+</div>
+</body>
+</html>

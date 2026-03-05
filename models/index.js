@@ -7,6 +7,10 @@ const db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+
+db.Member = require("./Member")(sequelize);
 db.Package = require("./Package")(sequelize);
+db.Class = require("./Class")(sequelize);
+db.Enrollment = require("./Enrollment")(sequelize);
 
 module.exports = db;
